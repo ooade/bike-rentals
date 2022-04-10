@@ -1,41 +1,49 @@
 import { useState } from 'react';
-import { Box, Button } from '@chakra-ui/react';
-// import { useCurrentUser, useErrorHandling } from '../../../hooks';
+import { useQuery } from 'react-query';
+import { Box, Button, useMediaQuery } from '@chakra-ui/react';
+
+import Bike from './Bike';
 import AddBikeModal from './AddBikeModal';
-
-const modals = {
-	addBike: 'addBike',
-	editUser: 'editBike',
-	removeBike: 'removeBike',
-} as const;
-
-const initialActiveModalState = {
-	modal: null,
-	bikeId: null,
-};
-
-type ActiveModalState = {
-	modal: keyof typeof modals | null;
-	bikeId?: string | null;
-};
+import { useErrorHandling } from '../../../hooks';
+import { ContentLoader } from '../../../components';
+import { fetchBikes, queryKeys } from '../../../api/bikes';
 
 export const ManageBikes = () => {
-	// const { data: currentUser } = useCurrentUser();
-	// const { renderApiErrorToast } = useErrorHandling();
-	const [activeModalState, setActiveModalState] = useState<ActiveModalState>(
-		initialActiveModalState
+	const { renderApiErrorToast } = useErrorHandling();
+	const [isAddBikeModalOpen, setIsAddBikeModalOpen] = useState(false);
+	const [isMediumScreen, isLargeScreen] = useMediaQuery([
+		'(min-width: 50em)',
+		'(min-width: 80em)',
+	]);
+
+	const { data: bikes = [], isLoading } = useQuery(
+		queryKeys.fetchBikes,
+		() => fetchBikes(),
+		{
+			select: ({ data }) => data,
+			onError: renderApiErrorToast('Could not fetch bikes'),
+		}
 	);
 
-	const handleModalClose = () => setActiveModalState(initialActiveModalState);
+	if (isLoading) return <ContentLoader />;
 
 	return (
 		<Box my="10">
-			{activeModalState.modal === 'addBike' && (
-				<AddBikeModal onClose={handleModalClose} />
+			{isAddBikeModalOpen && (
+				<AddBikeModal onClose={() => setIsAddBikeModalOpen(false)} />
 			)}
-			<Button ml="6" onClick={() => setActiveModalState({ modal: 'addBike' })}>
+			<Button ml="6" onClick={() => setIsAddBikeModalOpen(true)}>
 				Add new bike
 			</Button>
+			<Box
+				mx="6"
+				mt="4"
+				style={{ columnCount: isLargeScreen ? 3 : isMediumScreen ? 2 : 1 }}
+			>
+				{bikes.map((bike) => (
+					<Bike key={bike.id} bike={bike} />
+				))}
+			</Box>
 		</Box>
 	);
 };

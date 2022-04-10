@@ -22,7 +22,7 @@ const uploadMedia = async (req, res) => {
 };
 
 const deleteMedia = async (req, res) => {
-	const publicId = req.params.public_id;
+	const publicId = req.params.id;
 	try {
 		await cloudinary.v2.uploader.destroy(publicId);
 		return res.status(STATUS_CODES.ok).json(

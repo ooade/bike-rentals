@@ -13,8 +13,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { authSchema } from '../../schemas';
 import { useErrorHandling } from '../../hooks';
-import { login, AuthPayload, queryKeys } from '../../api/auth';
 import { getTokenAndUpdateHeaders } from '../../api';
+import { login, AuthPayload, queryKeys } from '../../api/auth';
 
 import bikeIllustration from '../../assets/bicycle.svg';
 
@@ -41,7 +41,7 @@ export const Login = () => {
 		validationSchema: authSchema,
 		onSubmit: (payload) => {
 			queryCache.clear();
-			queryClient.invalidateQueries(queryKeys.session);
+			queryClient.invalidateQueries(queryKeys.fetchCurrentUser);
 			loginMutation.mutate(payload);
 		},
 	});

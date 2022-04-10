@@ -14,7 +14,8 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useMutation, useQueryClient } from 'react-query';
-import { queryKeys, updateUser } from '../../../api/manage';
+
+import { queryKeys, updateUser } from '../../../api/auth';
 import {
 	useCurrentUser,
 	useErrorHandling,
@@ -39,7 +40,7 @@ const EditUserModal = ({ user, onClose }: EditUserModalProps) => {
 		(payload: Partial<User>) => updateUser(payload),
 		{
 			onSuccess: (response) => {
-				queryClient.invalidateQueries(queryKeys.users);
+				queryClient.invalidateQueries(queryKeys.fetchUsers);
 				renderApiSuccessToast('User added successfully')(response);
 				onClose();
 			},

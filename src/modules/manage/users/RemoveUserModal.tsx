@@ -9,11 +9,11 @@ import {
 	ModalContent,
 	ModalCloseButton,
 } from '@chakra-ui/react';
-import { WarningIcon } from '@chakra-ui/icons';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { User } from '../../../interfaces';
-import { queryKeys, removeUser } from '../../../api/manage';
+import { queryKeys, removeUser } from '../../../api/auth';
+import { AlertTriangleIcon } from '../../../components/icons';
 import { useErrorHandling, useSuccessToast } from '../../../hooks';
 
 interface RemoveUserModalProps {
@@ -29,7 +29,7 @@ const RemoveUserModal = ({ user, onClose }: RemoveUserModalProps) => {
 	const removeUserMutation = useMutation(() => removeUser({ id: user.id }), {
 		onError: renderApiErrorToast('Could not delete user'),
 		onSuccess: (response) => {
-			queryClient.invalidateQueries(queryKeys.users);
+			queryClient.invalidateQueries(queryKeys.fetchUsers);
 			renderApiSuccessToast('User deleted successfully')(response);
 		},
 	});
@@ -41,7 +41,7 @@ const RemoveUserModal = ({ user, onClose }: RemoveUserModalProps) => {
 				<ModalHeader fontSize="md">Remove user</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody textAlign="center">
-					<WarningIcon mt="4" color="red.400" h={8} w={8} />
+					<AlertTriangleIcon mt="4" color="red.400" h={8} w={8} />
 					<Text my="6">Are you sure you want to remove {user.email}?</Text>
 				</ModalBody>
 				<ModalFooter display="flex" justifyContent="space-between">

@@ -17,7 +17,7 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { User } from '../../../interfaces';
 import { addUserSchema } from '../../../schemas';
-import { queryKeys, addUser } from '../../../api/manage';
+import { queryKeys, addUser } from '../../../api/auth';
 import { useErrorHandling, useSuccessToast } from '../../../hooks';
 
 interface AddUserModalProps {
@@ -33,7 +33,7 @@ const AddUserModal = ({ onClose }: AddUserModalProps) => {
 		(payload: Partial<User>) => addUser(payload),
 		{
 			onSuccess: (response) => {
-				queryClient.invalidateQueries(queryKeys.users);
+				queryClient.invalidateQueries(queryKeys.fetchUsers);
 				renderApiSuccessToast('User added successfully')(response);
 				onClose();
 			},

@@ -15,7 +15,7 @@ export const useCurrentUser = ({
 	const { renderApiErrorToast } = useErrorHandling();
 	const navigate = useNavigate();
 
-	return useQuery(queryKeys.session, () => fetchCurrentUser(), {
+	return useQuery(queryKeys.fetchCurrentUser, () => fetchCurrentUser(), {
 		staleTime: Infinity,
 		select: ({ data }) => data,
 		onError: (error: APIErrorResponse) => {

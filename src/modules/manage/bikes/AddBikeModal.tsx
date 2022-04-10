@@ -1,31 +1,28 @@
 import {
+	Text,
 	Box,
 	Modal,
 	Image,
 	Input,
 	Button,
+	Spinner,
 	ModalBody,
 	FormLabel,
 	ModalHeader,
 	ModalFooter,
+	FormControl,
 	ModalOverlay,
 	ModalContent,
-	FormControl,
 	ModalCloseButton,
-	Text,
-	Spinner,
 } from '@chakra-ui/react';
-import { ChangeEvent, useRef } from 'react';
 import { useFormik } from 'formik';
-import { useMutation } from 'react-query';
+import { ChangeEvent, useRef } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { Bike } from '../../../interfaces';
 import { addBikeSchema } from '../../../schemas';
-import {
-	// queryKeys,
-	addUser,
-	uploadMedia,
-} from '../../../api/manage';
+import { uploadMedia } from '../../../api/media';
+import { queryKeys, addBike } from '../../../api/bikes';
 import { useErrorHandling, useSuccessToast } from '../../../hooks';
 
 interface AddBikeModalProps {
@@ -37,13 +34,13 @@ const AddBikeModal = ({ onClose }: AddBikeModalProps) => {
 
 	const { renderApiSuccessToast } = useSuccessToast();
 	const { renderApiErrorToast } = useErrorHandling();
-	// const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
 
 	const addBikeMutation = useMutation(
-		(payload: Partial<Bike>) => addUser(payload),
+		(payload: Partial<Bike>) => addBike(payload),
 		{
 			onSuccess: (response) => {
-				// TODO: invalidate bikes
+				queryClient.invalidateQueries(queryKeys.fetchBikes);
 				renderApiSuccessToast('Bike added successfully')(response);
 				onClose();
 			},
@@ -129,7 +126,9 @@ const AddBikeModal = ({ onClose }: AddBikeModalProps) => {
 								onClick={() => fileInputRef.current?.click()}
 							>
 								<Text mr="2">Click to upload image</Text>
-								{uploadMediaMutation.isLoading && <Spinner color="green.200" />}
+								{uploadMediaMutation.isLoading && (
+									<Spinner color={addBikeModalForm.values.color} />
+								)}
 							</Box>
 							{uploadMediaMutation.data && (
 								<Box

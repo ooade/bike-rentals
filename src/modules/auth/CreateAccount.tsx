@@ -44,7 +44,7 @@ export const CreateAccount = () => {
 		validationSchema: authSchema,
 		onSubmit: (payload) => {
 			queryCache.clear();
-			queryClient.invalidateQueries(queryKeys.session);
+			queryClient.invalidateQueries(queryKeys.fetchCurrentUser);
 			createAccountMutation.mutate(payload);
 		},
 	});

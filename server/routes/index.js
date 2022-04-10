@@ -1,6 +1,6 @@
 const multer = require('multer');
-const { authPolicy } = require('../policy');
 const { uploadMedia, deleteMedia } = require('./upload');
+const { addBike, getBikes, updateBike, deleteBike } = require('./bike');
 const {
 	login,
 	addUser,
@@ -11,13 +11,12 @@ const {
 	updateUser,
 } = require('./auth');
 
+const { isAuthenticated, canModerateApp } = require('../policy/auth');
+
 const upload = multer({ storage: multer.diskStorage({}) });
 
 module.exports = (app) => {
-	const isAuthAndCanManageUsers = [
-		authPolicy.onlyAuthUsers,
-		authPolicy.canManageUsers,
-	];
+	const isAuthenticatedAndCanModerateApp = [isAuthenticated, canModerateApp];
 
 	/**
 	 * @UserRoutes
@@ -25,21 +24,30 @@ module.exports = (app) => {
 	 */
 	app.post('/login', login);
 	app.post('/register', register);
-	app.post('/users', [...isAuthAndCanManageUsers], addUser);
-	app.get('/session', authPolicy.onlyAuthUsers, getSession);
-	app.get('/users', [...isAuthAndCanManageUsers], getUsers);
-	app.patch('/users/:id', [...isAuthAndCanManageUsers], updateUser);
-	app.delete('/users/:id', [...isAuthAndCanManageUsers], deleteUser);
+	app.get('/session', isAuthenticated, getSession);
+	app.post('/users', [...isAuthenticatedAndCanModerateApp], addUser);
+	app.get('/users', [...isAuthenticatedAndCanModerateApp], getUsers);
+	app.patch('/users/:id', [...isAuthenticatedAndCanModerateApp], updateUser);
+	app.delete('/users/:id', [...isAuthenticatedAndCanModerateApp], deleteUser);
 
 	/**
 	 * @FileUploadRoutes
-	 * Routes related to file updload
+	 * Routes related to file upload
 	 */
 	app.post(
 		'/media',
-		[...isAuthAndCanManageUsers],
+		[...isAuthenticatedAndCanModerateApp],
 		upload.single('file'),
 		uploadMedia
 	);
-	app.delete('/media/:public_id', [...isAuthAndCanManageUsers], deleteMedia);
+	app.delete('/media/:id', [...isAuthenticatedAndCanModerateApp], deleteMedia);
+
+	/**
+	 * @BikeRoutes
+	 * Routes related to bike
+	 */
+	app.get('/bikes', isAuthenticated, getBikes);
+	app.post('/bikes', [...isAuthenticatedAndCanModerateApp], addBike);
+	app.patch('/bikes/:id', [...isAuthenticatedAndCanModerateApp], updateBike);
+	app.delete('/bikes/:id', [...isAuthenticatedAndCanModerateApp], deleteBike);
 };

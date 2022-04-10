@@ -17,7 +17,7 @@ import EditUserModal from './EditUserModal';
 import RemoveUserModal from './RemoveUserModal';
 
 import { useCurrentUser, useErrorHandling } from '../../../hooks';
-import { fetchUsers, queryKeys } from '../../../api/manage';
+import { fetchUsers, queryKeys } from '../../../api/auth';
 import { ContentLoader } from '../../../components';
 import { formatDate } from '../../../utilities';
 
@@ -45,7 +45,7 @@ export const ManageUsers = () => {
 	);
 
 	const { data: users = [], isLoading } = useQuery(
-		queryKeys.users,
+		queryKeys.fetchUsers,
 		() => fetchUsers(),
 		{
 			select: ({ data }) => data,

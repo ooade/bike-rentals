@@ -2,9 +2,9 @@ const passport = require('passport');
 const { STATUS_CODES } = require('../constants');
 const { handleErrorResponse } = require('../utils');
 
-const onlyAuthUsers = passport.authenticate('jwt');
+const isAuthenticated = passport.authenticate('jwt');
 
-const canManageUsers = (req, res, next) => {
+const canModerateApp = (req, res, next) => {
 	const user = req.user;
 
 	if (user.role === 'manager') {
@@ -16,4 +16,4 @@ const canManageUsers = (req, res, next) => {
 		.json(handleErrorResponse({ error: 'Unauthorized' }));
 };
 
-module.exports = { onlyAuthUsers, canManageUsers };
+module.exports = { isAuthenticated, canModerateApp };
