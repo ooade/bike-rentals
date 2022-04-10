@@ -64,7 +64,7 @@ const Bike = ({ bike }: BikeProps) => {
 					width="100%"
 					bg={bike.color}
 					borderRadius="10px 10px 0px 0px"
-				></Box>
+				/>
 				<Menu placement="bottom-end">
 					<MenuButton
 						top="30px"

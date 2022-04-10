@@ -6,11 +6,11 @@ const reservationSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'bike',
 		},
-		reserved_from: {
+		from: {
 			type: Date,
 			required: true,
 		},
-		reserved_to: {
+		to: {
 			type: Date,
 			required: true,
 		},

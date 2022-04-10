@@ -26,6 +26,15 @@ export const removeBike = ({
 	return api.delete(`bikes/${id}`);
 };
 
+type RateBikeQueryParams = {
+	id: string;
+	rate: number;
+};
+
+export const rateBike = ({ id, rate }: RateBikeQueryParams) => {
+	return api.post(`bikes/${id}/review`, { rate });
+};
+
 export const queryKeys = {
 	fetchBikes: 'bikes',
 };

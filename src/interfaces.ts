@@ -38,4 +38,14 @@ export interface Bike extends CommonApiData {
 	color: string;
 	location: string;
 	image: Cloudinary;
+	reservations?: [];
+	averageRate: number | null;
+}
+
+export interface Reservation extends CommonApiData {
+	id: string;
+	to: string;
+	bike: Bike;
+	from: string;
+	created_by: User;
 }

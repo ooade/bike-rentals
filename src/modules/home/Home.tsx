@@ -1,17 +1,14 @@
-import { Box, Input } from '@chakra-ui/react';
 import { Layout } from '../../components';
-import { useCurrentUser } from '../../hooks';
+import HomeFilters from './HomeFilters';
+import Bikes from './bikes';
 
-export const Home = () => {
-	const { data: user } = useCurrentUser();
-
-	if (!user) return null;
-
+const Home = () => {
 	return (
 		<Layout>
-			<Box height="200px" display="flex" alignItems="center" p="5">
-				<Input placeholder="Search for bikes" height="60px" />
-			</Box>
+			<HomeFilters />
+			<Bikes />
 		</Layout>
 	);
 };
+
+export default Home;

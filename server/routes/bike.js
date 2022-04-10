@@ -24,13 +24,41 @@ const addBike = async (req, res) => {
 };
 
 const getBikes = async (req, res) => {
+	const { color, model, location, average_rate } = req.query;
+
 	try {
-		const bikes = await Bike.find();
+		const bikes = await Bike.aggregate([
+			{
+				$addFields: {
+					averageRate: {
+						$avg: '$ratings.rate',
+					},
+				},
+			},
+			{
+				$match: {
+					...(color && { color: { $regex: color, $options: 'i' } }),
+					...(model && { model: { $regex: model, $options: 'i' } }),
+					...(average_rate && { averageRate: parseInt(average_rate, 10) }),
+					...(location && { location: { $regex: location, $options: 'i' } }),
+				},
+			},
+			{
+				$lookup: {
+					from: 'reservations',
+					localField: '_id',
+					foreignField: 'bike',
+					as: 'reservations',
+				},
+			},
+		]);
+
+		const formattedBikes = bikes.map((bike) => Bike.hydrate(bike));
 
 		return res.status(STATUS_CODES.ok).json(
 			handleSuccessResponse({
 				message: 'Bikes retrieved successfully',
-				data: bikes,
+				data: formattedBikes,
 			})
 		);
 	} catch (error) {
@@ -66,7 +94,7 @@ const updateBike = async (req, res) => {
 	const { model, color, image, location } = req.body;
 
 	try {
-		const user = await Bike.findByIdAndUpdate(
+		const bike = await Bike.findByIdAndUpdate(
 			id,
 			{ model, color, image, location },
 			{ new: true }
@@ -75,7 +103,7 @@ const updateBike = async (req, res) => {
 		return res.status(STATUS_CODES.ok).json(
 			handleSuccessResponse({
 				message: 'Bike updated successfully',
-				data: user,
+				data: bike,
 			})
 		);
 	} catch (error) {
@@ -85,8 +113,53 @@ const updateBike = async (req, res) => {
 	}
 };
 
+const rateBike = async (req, res) => {
+	const { rate } = req.body;
+	const { bike_id } = req.params;
+	const { id: rated_by } = req.user;
+
+	try {
+		let rating;
+
+		const foundRating = await Bike.findOneAndUpdate(
+			{
+				_id: bike_id,
+				'ratings.rated_by': rated_by,
+			},
+			{
+				$set: {
+					'ratings.$.rate': rate,
+				},
+			},
+			{ new: true }
+		);
+
+		if (foundRating) {
+			rating = foundRating;
+		} else {
+			rating = await Bike.findByIdAndUpdate(
+				bike_id,
+				{ $push: { ratings: { rated_by, rate } } },
+				{ new: true }
+			);
+		}
+
+		return res.status(STATUS_CODES.ok).json(
+			handleSuccessResponse({
+				message: 'Rated bike successfully',
+				data: rating,
+			})
+		);
+	} catch (error) {
+		return res
+			.status(STATUS_CODES.serverError)
+			.json(handleErrorResponse({ message: 'Failed to rate bike', error }));
+	}
+};
+
 module.exports = {
 	addBike,
+	rateBike,
 	getBikes,
 	updateBike,
 	deleteBike,

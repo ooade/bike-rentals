@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const bikeSchema = new mongoose.Schema(
 	{
 		model: {
-			type: String,
-			unique: true,
 			trim: true,
+			type: String,
 			required: true,
 		},
 		color: String,
@@ -14,10 +13,18 @@ const bikeSchema = new mongoose.Schema(
 			type: Map,
 			of: String,
 		},
-		ratings: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'rating',
-		},
+		ratings: [
+			{
+				rate: {
+					type: Number,
+					max: 5,
+				},
+				rated_by: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'user',
+				},
+			},
+		],
 		created_by: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'user',
