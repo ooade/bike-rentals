@@ -3,7 +3,7 @@
 describe('Home', () => {
 	beforeEach(() => {
 		cy.login();
-		cy.intercept('GET', '/bikes**', { fixture: 'bikes' }).as('fetchBikes');
+		cy.intercept('GET', '/api/bikes**', { fixture: 'bikes' }).as('fetchBikes');
 		cy.visit('/');
 	});
 
@@ -38,7 +38,7 @@ describe('Home', () => {
 	});
 
 	it('can reserve a bike for a specific period', () => {
-		cy.intercept('POST', '/reservations/bikes/*').as('reserveBike');
+		cy.intercept('POST', '/api/reservations/bikes/*').as('reserveBike');
 		cy.getByTestId('bike-1').within(() => {
 			cy.get('button').click();
 		});
@@ -55,7 +55,7 @@ describe('Home', () => {
 	});
 
 	it('can rate a bike', () => {
-		cy.intercept('POST', '/bikes/*/review').as('rateBike');
+		cy.intercept('POST', '/api/bikes/*/review').as('rateBike');
 
 		cy.getByTestId('bike-1').within(() => {
 			cy.getByTestId('star-4').click();

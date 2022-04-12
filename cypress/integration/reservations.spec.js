@@ -3,8 +3,8 @@
 describe('Reservations', () => {
 	beforeEach(() => {
 		cy.login();
+		cy.intercept('GET', '/api/reservations', { fixture: 'reservations' });
 		cy.visit('/reservations');
-		cy.intercept('GET', '/reservations', { fixture: 'reservations' });
 	});
 
 	it('can render a list of user resrvations', () => {
@@ -18,7 +18,7 @@ describe('Reservations', () => {
 	});
 
 	it('can cancel a reservation', () => {
-		cy.intercept('DELETE', 'reservations/*', {}).as('removeReservation');
+		cy.intercept('DELETE', '/api/reservations/*', {}).as('removeReservation');
 
 		cy.getByTestId('reservation-0').within(() => {
 			cy.get('button').click();

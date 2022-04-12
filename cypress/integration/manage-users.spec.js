@@ -3,7 +3,7 @@
 describe('Manage users', () => {
 	beforeEach(() => {
 		cy.login();
-		cy.intercept('GET', '/users', { fixture: 'users' }).as('fetchUsers');
+		cy.intercept('GET', '/api/users', { fixture: 'users' }).as('fetchUsers');
 		cy.visit('/manage/users');
 	});
 
@@ -18,7 +18,7 @@ describe('Manage users', () => {
 	});
 
 	it('can add users', () => {
-		cy.intercept('POST', '/users', {}).as('addUser');
+		cy.intercept('POST', '/api/users', {}).as('addUser');
 		cy.contains('Add new user').click();
 		cy.get('#email').clear().type('ademola@ps.com');
 		cy.get('#password').clear().type('#checkers');
@@ -37,7 +37,7 @@ describe('Manage users', () => {
 	});
 
 	it('can edit users', () => {
-		cy.intercept('PATCH', '/users/*', {}).as('updateUser');
+		cy.intercept('PATCH', '/api/users/*', {}).as('updateUser');
 		cy.getByTestId('user-1').within(() => {
 			cy.contains('Edit').click();
 		});
@@ -57,7 +57,7 @@ describe('Manage users', () => {
 	});
 
 	it('can remove users', () => {
-		cy.intercept('DELETE', '/users/*', {}).as('removeUser');
+		cy.intercept('DELETE', '/api/users/*', {}).as('removeUser');
 		cy.getByTestId('user-1').within(() => {
 			cy.contains('Remove').click();
 		});

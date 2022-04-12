@@ -46,7 +46,7 @@ module.exports = (app) => {
 	 * Routes related to file upload
 	 */
 	app.post(
-		'/media',
+		'/api/media',
 		isAuthenticated,
 		canModerateApp,
 		upload.single('file'),

@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 Cypress.Commands.add('login', () => {
-	cy.intercept('GET', '/session', { fixture: 'session' });
+	cy.intercept('GET', '/api/session', { fixture: 'session' });
 });
 
 Cypress.Commands.add('getByTestId', (testId) => {

@@ -2,7 +2,7 @@
 
 describe('User', () => {
 	it('can create an account', () => {
-		cy.intercept('POST', '/register', {}).as('createUserAccount');
+		cy.intercept('POST', '/api/register', {}).as('createUserAccount');
 		cy.visit('/register');
 
 		cy.get('#email').type('ooade96@gmail.com');
@@ -18,7 +18,7 @@ describe('User', () => {
 	});
 
 	it('can login to an account', () => {
-		cy.intercept('POST', '/login', {}).as('loginUserAccount');
+		cy.intercept('POST', '/api/login', {}).as('loginUserAccount');
 		cy.visit('/login');
 
 		cy.get('#email').type('ooade96@gmail.com');

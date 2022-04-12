@@ -3,7 +3,7 @@
 describe('Manage Reservations', () => {
 	beforeEach(() => {
 		cy.login();
-		cy.intercept('GET', '/reservations/users', {
+		cy.intercept('GET', '/api/reservations/users', {
 			fixture: 'reservation-users',
 		}).as('fetchReservationUsers');
 	});
@@ -18,7 +18,7 @@ describe('Manage Reservations', () => {
 	});
 
 	it('can list user reservations', () => {
-		cy.intercept('GET', 'reservations/users/*', {
+		cy.intercept('GET', '/api/reservations/users/*', {
 			fixture: 'user-reservations',
 		});
 		cy.visit('/manage/reservations/62514417a78da89371b3916a');

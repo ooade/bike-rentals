@@ -3,7 +3,7 @@
 describe('Manage bikes', () => {
 	beforeEach(() => {
 		cy.login();
-		cy.intercept('GET', '/bikes', { fixture: 'bikes' }).as('fetchBikes');
+		cy.intercept('GET', '/api/bikes', { fixture: 'bikes' }).as('fetchBikes');
 		cy.visit('/manage/bikes');
 	});
 
@@ -18,7 +18,7 @@ describe('Manage bikes', () => {
 	});
 
 	it('can edit bikes', () => {
-		cy.intercept('PATCH', '/bikes/*', {}).as('editBike');
+		cy.intercept('PATCH', '/api/bikes/*', {}).as('editBike');
 		cy.getByTestId('bike-0').within(() => {
 			cy.get('[aria-label="Open menu"]').click();
 		});
@@ -36,7 +36,7 @@ describe('Manage bikes', () => {
 	});
 
 	it('can delete a bike', { scrollBehavior: false }, () => {
-		cy.intercept('DELETE', '/bikes/*', {}).as('deleteBike');
+		cy.intercept('DELETE', '/api/bikes/*', {}).as('deleteBike');
 		cy.getByTestId('bike-0').within(() => {
 			cy.get('[aria-label="Open menu"]').click();
 			cy.getByTestId('remove-bike').click();
