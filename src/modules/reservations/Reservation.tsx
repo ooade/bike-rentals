@@ -13,7 +13,7 @@ interface ReservationProps {
 	reservation: ReservationInterface;
 }
 
-const Reservation = ({ reservation }: ReservationProps) => {
+const Reservation = ({ reservation, ...props }: ReservationProps) => {
 	const [isShowCancelReservation, setIsShowCancelReservation] = useState(false);
 
 	const averageRatings = (ratings: RatingInterface[]) => {
@@ -22,7 +22,7 @@ const Reservation = ({ reservation }: ReservationProps) => {
 		);
 	};
 	return (
-		<>
+		<div {...props}>
 			{isShowCancelReservation && (
 				<CancelReservationModal
 					reservation={reservation}
@@ -77,7 +77,7 @@ const Reservation = ({ reservation }: ReservationProps) => {
 					</Button>
 				</Box>
 			</Box>
-		</>
+		</div>
 	);
 };
 

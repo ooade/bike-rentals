@@ -50,13 +50,14 @@ const Reservations = () => {
 							<Th>Reserved till</Th>
 						</Tr>
 					</Thead>
-					<Tbody>
-						{users.map(({ id, from, to, email }) => (
+					<Tbody data-testid="reservation-users">
+						{users.map(({ id, from, to, email }, index) => (
 							<Tr
 								key={id}
 								cursor="pointer"
 								_hover={{ bg: 'gray.50' }}
 								bg={params.id === id ? 'gray.100' : ''}
+								data-testid={`reservation-user-${index}`}
 								onClick={() => navigate(`/manage/reservations/${id}`)}
 							>
 								<Td>{email}</Td>

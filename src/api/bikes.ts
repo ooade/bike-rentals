@@ -8,9 +8,9 @@ export const addBike = (
 };
 
 export const fetchBikes = (
-	serializedParams?: string
+	params?: Partial<Bike>
 ): Promise<APISuccessResponse<Bike[]>> => {
-	return api.get(`bikes?${serializedParams || ''}`);
+	return api.get('bikes', { params });
 };
 
 export const updateBike = ({

@@ -22,6 +22,7 @@
 		"passport": "^0.5.2",
 		"passport-jwt": "^4.0.0",
 		"passport-local-mongoose": "^7.0.0",
+		"qs": "^6.10.3",
 		"react": "^17",
 		"react-dom": "^17",
 		"react-query": "^3.34.19",
@@ -33,7 +34,8 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"e2e": "cypress run",
+		"cy:open": "cypress open",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -63,6 +65,7 @@
 		"@types/react": "^17.0.20",
 		"@types/react-dom": "^17.0.9",
 		"concurrently": "^7.1.0",
+		"cypress": "^9.5.4",
 		"nodemon": "^2.0.15",
 		"react-router-dom": "^6.3.0",
 		"tslib": "^2.3.1"

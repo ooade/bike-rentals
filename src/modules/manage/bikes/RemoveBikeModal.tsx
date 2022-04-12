@@ -62,6 +62,7 @@ const RemoveBikeModal = ({
 					<Button onClick={onClose}>Cancel</Button>
 					<Button
 						colorScheme="red"
+						data-testid="remove-bike-button"
 						isLoading={removeBikeMutation.isLoading}
 						onClick={() => removeBikeMutation.mutate()}
 					>

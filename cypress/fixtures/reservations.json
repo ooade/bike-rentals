@@ -1,0 +1,70 @@
+{
+	"status": true,
+	"message": "Reservations retrieved successfully",
+	"data": [
+		{
+			"bike": {
+				"model": "MX 450",
+				"color": "#e6893d",
+				"location": "Burundi",
+				"image": {
+					"secure_url": "https://res.cloudinary.com/bookaride/image/upload/v1649754363/mwoo9dix9svpvoby43nf.jpg",
+					"public_id": "mwoo9dix9svpvoby43nf"
+				},
+				"created_by": "62514417a78da89371b3916a",
+				"ratings": [],
+				"createdAt": "2022-04-12T09:09:26.607Z",
+				"updatedAt": "2022-04-12T09:09:56.574Z",
+				"id": "625541c6457e0ea7d71126b7"
+			},
+			"from": "2022-04-15T00:00:00.000Z",
+			"to": "2022-04-24T00:00:00.000Z",
+			"created_by": {
+				"email": "ooade96@gmail.com",
+				"role": "manager",
+				"createdAt": "2022-04-09T08:30:16.075Z",
+				"updatedAt": "2022-04-09T18:29:15.714Z",
+				"fullname": "Ademola Adegbuyi",
+				"id": "62514417a78da89371b3916a"
+			},
+			"createdAt": "2022-04-12T09:22:36.564Z",
+			"updatedAt": "2022-04-12T09:22:36.564Z",
+			"id": "625544dce52f4db6f5bb3ae7"
+		},
+		{
+			"bike": {
+				"model": "MX 250",
+				"color": "#bb6868",
+				"location": "Lagos, Nigeria",
+				"image": {
+					"secure_url": "https://res.cloudinary.com/bookaride/image/upload/v1649595684/c4vfm8khrsqbrxl3n3rl.jpg",
+					"public_id": "c4vfm8khrsqbrxl3n3rl"
+				},
+				"created_by": "62514417a78da89371b3916a",
+				"createdAt": "2022-04-10T13:01:27.293Z",
+				"updatedAt": "2022-04-11T00:12:46.203Z",
+				"ratings": [
+					{
+						"rate": 4,
+						"rated_by": "6251d1e1bb1bf17935d66027",
+						"id": "6253727ee045e37567442017"
+					}
+				],
+				"id": "6252d527328b5256a54bbac9"
+			},
+			"from": "2022-07-04T00:00:00.000Z",
+			"to": "2022-10-10T00:00:00.000Z",
+			"created_by": {
+				"email": "ooade96@gmail.com",
+				"role": "manager",
+				"createdAt": "2022-04-09T08:30:16.075Z",
+				"updatedAt": "2022-04-09T18:29:15.714Z",
+				"fullname": "Ademola Adegbuyi",
+				"id": "62514417a78da89371b3916a"
+			},
+			"createdAt": "2022-04-12T18:50:45.991Z",
+			"updatedAt": "2022-04-12T18:50:45.991Z",
+			"id": "6255ca05e1a7fd8e911d78d6"
+		}
+	]
+}

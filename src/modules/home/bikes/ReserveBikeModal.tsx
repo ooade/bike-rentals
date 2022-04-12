@@ -61,7 +61,10 @@ const ReserveBikeModal = ({ bike, onClose }: AddBikeModalProps) => {
 		<Modal isOpen={true} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent>
-				<form onSubmit={reserveBikeModalForm.handleSubmit}>
+				<form
+					id="reserve-bike-form"
+					onSubmit={reserveBikeModalForm.handleSubmit}
+				>
 					<ModalHeader fontSize="md">Reserve the {bike.model} bike</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>

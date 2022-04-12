@@ -55,11 +55,12 @@ const EditBikeModal = ({
 		}
 	);
 
+	const { id, color, image, location, model } = bike;
 	const updateBikeModalForm = useFormik({
-		initialValues: bike,
+		initialValues: { color, image, location, model },
 		validationSchema: addBikeSchema,
 		onSubmit: (payload) => {
-			UpdateBikeMutation.mutate(payload);
+			UpdateBikeMutation.mutate({ id, ...payload });
 		},
 	});
 

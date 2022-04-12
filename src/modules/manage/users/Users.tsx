@@ -86,9 +86,9 @@ export const ManageUsers = () => {
 							<Th></Th>
 						</Tr>
 					</Thead>
-					<Tbody>
-						{users.map((user) => (
-							<Tr key={user.id}>
+					<Tbody data-testid="users">
+						{users.map((user, index) => (
+							<Tr key={user.id} data-testid={`user-${index}`}>
 								<Td>{user.email}</Td>
 								<Td>{user.role}</Td>
 								<Td>{formatDate(user.createdAt)}</Td>

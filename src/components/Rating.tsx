@@ -24,6 +24,7 @@ export const Rating = ({ value, onChange }: RatingProps) => {
 					as="span"
 					key={index}
 					cursor="pointer"
+					data-testid={`star-${index}`}
 					onClick={() => {
 						handleClick(index + 1);
 						initialRateRef.current = index + 1;

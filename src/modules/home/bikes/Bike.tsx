@@ -14,7 +14,7 @@ interface BikeProps {
 	bike: BikeInterface;
 }
 
-const Bike = ({ bike }: BikeProps) => {
+const Bike = ({ bike, ...props }: BikeProps) => {
 	const [isReserveBikeModalOpen, setIsReserveBikeOpen] = useState(false);
 	const { renderApiSuccessToast } = useSuccessToast();
 	const { renderApiErrorToast } = useErrorHandling();
@@ -39,7 +39,7 @@ const Bike = ({ bike }: BikeProps) => {
 	);
 
 	return (
-		<div>
+		<div {...props}>
 			{isReserveBikeModalOpen && (
 				<ReserveBikeModal
 					bike={bike}

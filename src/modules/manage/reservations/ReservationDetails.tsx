@@ -27,6 +27,7 @@ const ReservationDetails = () => {
 			overflowY="scroll"
 			justifyContent="center"
 			height="calc(100vh - 70px)"
+			data-testid="user-reservations"
 		>
 			{!params.id && (
 				<Text fontWeight="600" mt="10">

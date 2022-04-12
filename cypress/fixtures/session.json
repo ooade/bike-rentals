@@ -1,0 +1,12 @@
+{
+	"status": true,
+	"message": "Session retrieved",
+	"data": {
+		"email": "ooade96@gmail.com",
+		"role": "manager",
+		"createdAt": "2022-04-09T08:30:16.075Z",
+		"updatedAt": "2022-04-09T18:29:15.714Z",
+		"fullname": "Ademola Adegbuyi",
+		"id": "62514417a78da89371b3916a"
+	}
+}

@@ -31,9 +31,9 @@ export const ManageBikes = () => {
 			<Button ml="4" onClick={() => setIsAddBikeModalOpen(true)}>
 				Add new bike
 			</Button>
-			<Flex flexWrap="wrap">
-				{bikes.map((bike) => (
-					<Bike key={bike.id} bike={bike} />
+			<Flex flexWrap="wrap" data-testid="bikes">
+				{bikes.map((bike, index) => (
+					<Bike data-testid={`bike-${index}`} key={bike.id} bike={bike} />
 				))}
 			</Flex>
 		</Box>

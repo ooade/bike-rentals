@@ -24,7 +24,7 @@ interface BikeProps {
 	bike: BikeInterface;
 }
 
-const Bike = ({ bike }: BikeProps) => {
+const Bike = ({ bike, ...props }: BikeProps) => {
 	const [openedModal, setOpenedModal] = useState('');
 	const onModalClose = () => setOpenedModal('');
 
@@ -34,7 +34,7 @@ const Bike = ({ bike }: BikeProps) => {
 	);
 
 	return (
-		<>
+		<div {...props}>
 			{openedModal === 'edit' && (
 				<EditBikeModal
 					bike={bike}
@@ -79,12 +79,14 @@ const Bike = ({ bike }: BikeProps) => {
 					<MenuList minWidth="60px">
 						<MenuItem
 							icon={<EditIcon />}
+							data-testid="edit-bike"
 							onClick={() => setOpenedModal('edit')}
 						>
 							Edit
 						</MenuItem>
 						<MenuItem
 							icon={<DeleteIcon />}
+							data-testid="remove-bike"
 							onClick={() => setOpenedModal('remove')}
 						>
 							Remove
@@ -108,7 +110,7 @@ const Bike = ({ bike }: BikeProps) => {
 					</Box>
 				</Box>
 			</Box>
-		</>
+		</div>
 	);
 };
 

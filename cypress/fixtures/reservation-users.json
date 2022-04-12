@@ -1,0 +1,34 @@
+{
+	"status": true,
+	"message": "Reservations retrieved successfully",
+	"data": [
+		{
+			"from": "2022-07-04T00:00:00.000Z",
+			"to": "2022-10-10T00:00:00.000Z",
+			"reservation_id": "6255ca05e1a7fd8e911d78d6",
+			"id": "62514417a78da89371b3916a",
+			"email": "ooade96@gmail.com"
+		},
+		{
+			"from": "2022-04-10T22:57:05.688Z",
+			"to": "2022-05-10T22:57:21.258Z",
+			"reservation_id": "6253616b67a160c7e43c48ff",
+			"id": "6251b2b4e1b1272452f7322a",
+			"email": "ooade96+2@gmail.com"
+		},
+		{
+			"from": "2022-04-29T00:00:00.000Z",
+			"to": "2022-04-30T00:00:00.000Z",
+			"reservation_id": "62553f3569c6afcd2f0d3b69",
+			"id": "6251d18abb1bf17935d6601e",
+			"email": "hi@hi.com"
+		},
+		{
+			"from": "2022-05-11T00:00:00.000Z",
+			"to": "2022-05-13T00:00:00.000Z",
+			"reservation_id": "62549ae9a442f307a2720d8c",
+			"id": "6251d1e1bb1bf17935d66027",
+			"email": "ademola@paystack.com"
+		}
+	]
+}

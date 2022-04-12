@@ -12,6 +12,7 @@ import {
 	PopoverTrigger,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { ChevronDown } from '../../components/icons';
@@ -21,6 +22,7 @@ import {
 } from '../../utilities';
 
 export const HomeFilters = () => {
+	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const colorParam = searchParams.get('color');
@@ -47,16 +49,23 @@ export const HomeFilters = () => {
 			const sanitizedPayload = sanitizeObject(
 				payload
 			) as typeof filterFormInitialValues;
-
+			setIsFilterOpen(false);
 			setSearchParams(sanitizedPayload);
 		},
 	});
 
 	return (
 		<Box display="flex" alignItems="center" height="80px">
-			<Popover placement="bottom-start">
+			<Popover
+				placement="bottom-start"
+				isOpen={isFilterOpen}
+				onOpen={() => setIsFilterOpen(true)}
+				onClose={() => setIsFilterOpen(true)}
+			>
 				<PopoverTrigger>
-					<Button leftIcon={<ChevronDown />}> Filter </Button>
+					<Button data-testid="filter-bikes" leftIcon={<ChevronDown />}>
+						Filter
+					</Button>
 				</PopoverTrigger>
 				<PopoverContent>
 					<PopoverArrow />
@@ -137,8 +146,12 @@ export const HomeFilters = () => {
 										Rate average
 									</FormLabel>
 									<Input
+										min="1"
+										step="1"
+										max="5"
 										size="sm"
 										type="number"
+										pattern="/\d+/"
 										placeholder="4"
 										id="average_rate"
 										{...filterForm.getFieldProps('average_rate')}

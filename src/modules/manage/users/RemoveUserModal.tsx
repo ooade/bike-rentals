@@ -48,6 +48,7 @@ const RemoveUserModal = ({ user, onClose }: RemoveUserModalProps) => {
 					<Button onClick={onClose}>Cancel</Button>
 					<Button
 						colorScheme="red"
+						data-testid="remove-user-button"
 						isLoading={removeUserMutation.isLoading}
 						onClick={() => removeUserMutation.mutate()}
 					>

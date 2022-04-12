@@ -31,9 +31,13 @@ const Reservations = () => {
 				{isSuccess && reservations.length === 0 && (
 					<NoData title="No reservations yet :)" />
 				)}
-				<Flex flexWrap="wrap">
-					{reservations.map((reservation) => (
-						<Reservation key={reservation.id} reservation={reservation} />
+				<Flex flexWrap="wrap" data-testid="reservations">
+					{reservations.map((reservation, index) => (
+						<Reservation
+							key={reservation.id}
+							reservation={reservation}
+							data-testid={`reservation-${index}`}
+						/>
 					))}
 				</Flex>
 			</Box>
