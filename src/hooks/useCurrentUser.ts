@@ -15,12 +15,16 @@ export const useCurrentUser = ({
 	const { renderApiErrorToast } = useErrorHandling();
 	const navigate = useNavigate();
 
+	const token = window.localStorage.getItem('token');
+
 	return useQuery(queryKeys.fetchCurrentUser, () => fetchCurrentUser(), {
 		staleTime: Infinity,
 		select: ({ data }) => data,
 		onError: (error: APIErrorResponse) => {
 			if (skipErrorHandling) return;
-			renderApiErrorToast('Session expired')(error);
+			if (token) {
+				renderApiErrorToast('Session expired')(error);
+			}
 			navigate('/login');
 		},
 	});
