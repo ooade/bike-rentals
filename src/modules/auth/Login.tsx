@@ -61,7 +61,6 @@ export const Login = () => {
 					<Heading as="h4" size="md" mb="6" color="blue.400">
 						Login to RentABike
 					</Heading>
-
 					<form onSubmit={loginForm.handleSubmit}>
 						<FormControl mb="2" isRequired>
 							<FormLabel htmlFor="email">Email address</FormLabel>

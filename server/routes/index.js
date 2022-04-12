@@ -76,7 +76,7 @@ module.exports = (app) => {
 		listReservationUsers
 	);
 	app.get('/reservations', isAuthenticated, listReservations);
-	app.post('/bikes/:bike_id/reserve', isAuthenticated, reserveBike);
+	app.post('/reservations/bikes/:bike_id', isAuthenticated, reserveBike);
 	app.get(
 		'/reservations/users/:user_id',
 		isAuthenticated,

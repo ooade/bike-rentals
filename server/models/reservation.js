@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const mongoose = require('mongoose');
 
 const reservationSchema = new mongoose.Schema(
@@ -23,5 +24,13 @@ const reservationSchema = new mongoose.Schema(
 		timestamps: true,
 	}
 );
+
+reservationSchema.statics.validateReserveBike = (reservation) => {
+	const schema = Joi.object({
+		from: Joi.date().required(),
+		to: Joi.date().greater(Joi.ref('from')).required(),
+	});
+	return schema.validate(reservation);
+};
 
 module.exports = mongoose.model('reservation', reservationSchema);

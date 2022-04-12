@@ -6,13 +6,22 @@ const addBike = async (req, res) => {
 	const { model, color, image, location } = req.body;
 	const { id: created_by } = req.user;
 
+	const addBikeErrorMessage = 'Failed to add bike';
+	const { error } = Bike.validateManageBike({ model, color, image, location });
+
+	if (error) {
+		return res
+			.status(STATUS_CODES.badRequest)
+			.json(handleErrorResponse({ message: addBikeErrorMessage, error }));
+	}
+
 	try {
 		const bike = await new Bike({ model, color, image, location, created_by });
 		await bike.save();
 
 		return res.status(STATUS_CODES.created).json(
 			handleSuccessResponse({
-				message: 'Bike added successfully',
+				message: addBikeErrorMessage,
 				data: bike,
 			})
 		);
@@ -115,6 +124,15 @@ const updateBike = async (req, res) => {
 	const { id } = req.params;
 	const { model, color, image, location } = req.body;
 
+	const updateBikeErrorMessage = 'Failed to update bike';
+	const { error } = Bike.validateManageBike({ model, color, image, location });
+
+	if (error) {
+		return res
+			.status(STATUS_CODES.badRequest)
+			.json(handleErrorResponse({ message: updateBikeErrorMessage, error }));
+	}
+
 	try {
 		const bike = await Bike.findByIdAndUpdate(
 			id,
@@ -131,7 +149,7 @@ const updateBike = async (req, res) => {
 	} catch (error) {
 		return res
 			.status(STATUS_CODES.serverError)
-			.json(handleErrorResponse({ message: 'Failed to update bike', error }));
+			.json(handleErrorResponse({ message: updateBikeErrorMessage, error }));
 	}
 };
 
@@ -139,6 +157,18 @@ const rateBike = async (req, res) => {
 	const { rate } = req.body;
 	const { bike_id } = req.params;
 	const { id: rated_by } = req.user;
+
+	const rateBikeErrorMessage = 'Failed to rate bike';
+	const { error } = Bike.validateRateBike({ rate });
+
+	if (error) {
+		return res.status(STATUS_CODES.badRequest).json(
+			handleErrorResponse({
+				message: rateBikeErrorMessage,
+				error,
+			})
+		);
+	}
 
 	try {
 		let rating;
@@ -175,7 +205,7 @@ const rateBike = async (req, res) => {
 	} catch (error) {
 		return res
 			.status(STATUS_CODES.serverError)
-			.json(handleErrorResponse({ message: 'Failed to rate bike', error }));
+			.json(handleErrorResponse({ message: rateBikeErrorMessage, error }));
 	}
 };
 

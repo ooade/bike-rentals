@@ -5,6 +5,18 @@ const { handleErrorResponse, handleSuccessResponse } = require('../utils');
 const register = async (req, res) => {
 	const { email, password } = req.body;
 
+	const registrationErrorMessage = 'Could not register user';
+	const { error } = User.validateAuth({ email, password });
+
+	if (error) {
+		return res.status(STATUS_CODES.badRequest).json(
+			handleErrorResponse({
+				message: registrationErrorMessage,
+				error,
+			})
+		);
+	}
+
 	try {
 		const user = new User({ email });
 		await User.register(user, password);
@@ -20,9 +32,9 @@ const register = async (req, res) => {
 			})
 		);
 	} catch (error) {
-		return res.status(STATUS_CODES.badRequest).json(
+		return res.status(STATUS_CODES.serverError).json(
 			handleErrorResponse({
-				message: 'Could not register user',
+				message: registrationErrorMessage,
 				error,
 			})
 		);
@@ -31,6 +43,18 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
 	const { email, password } = req.body;
+
+	const loginErrorMessage = 'Could not login user';
+	const validation = User.validateAuth({ email, password });
+
+	if (validation.error) {
+		return res.status(STATUS_CODES.badRequest).json(
+			handleErrorResponse({
+				message: loginErrorMessage,
+				error: validation.error,
+			})
+		);
+	}
 
 	const { user, error } = await User.authenticate()(email, password);
 
@@ -53,7 +77,7 @@ const login = async (req, res) => {
 
 	return res.status(STATUS_CODES.unauthorized).json(
 		handleErrorResponse({
-			message: 'Could not login user',
+			message: loginErrorMessage,
 			error,
 		})
 	);
@@ -94,8 +118,19 @@ const getUsers = async (req, res) => {
 };
 
 const addUser = async (req, res) => {
-	//TODO: validate fields
 	const { email, role, fullname, password } = req.body;
+	const addUserErrorMessage = 'Failed to add user';
+
+	const { error } = User.validateAddUser({ email, password, role });
+
+	if (error) {
+		return res.status(STATUS_CODES.badRequest).json(
+			handleErrorResponse({
+				message: addUserErrorMessage,
+				error,
+			})
+		);
+	}
 
 	try {
 		const user = new User({ email, role, fullname, password });
@@ -110,7 +145,7 @@ const addUser = async (req, res) => {
 	} catch (error) {
 		return res
 			.status(STATUS_CODES.serverError)
-			.json(handleErrorResponse({ message: 'Failed to add user', error }));
+			.json(handleErrorResponse({ message: addUserErrorMessage, error }));
 	}
 };
 
@@ -137,6 +172,18 @@ const updateUser = async (req, res) => {
 	const { id } = req.params;
 	const { email, fullname, role } = req.body;
 
+	const updateUserErrorMessage = 'Failed to update user';
+	const { error } = User.validateUpdateUser({ email, role });
+
+	if (error) {
+		return res.status(STATUS_CODES.badRequest).json(
+			handleErrorResponse({
+				message: updateUserErrorMessage,
+				error,
+			})
+		);
+	}
+
 	try {
 		const user = await User.findByIdAndUpdate(
 			id,
@@ -153,7 +200,7 @@ const updateUser = async (req, res) => {
 	} catch (error) {
 		return res
 			.status(STATUS_CODES.serverError)
-			.json(handleErrorResponse({ message: 'Failed to update user', error }));
+			.json(handleErrorResponse({ message: updateUserErrorMessage, error }));
 	}
 };
 

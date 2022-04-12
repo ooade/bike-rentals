@@ -37,7 +37,7 @@ passport.deserializeUser(User.deserializeUser());
 routes(app);
 
 app.get('**', (req, res) => {
-	return res.send('Oops, you landed on the wrong page!');
+	return res.status(404).send('Not found');
 });
 
 app.listen(PORT, (err) => {

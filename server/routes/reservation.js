@@ -8,6 +8,13 @@ const reserveBike = async (req, res) => {
 	const { id: created_by } = req.user;
 
 	const reserveBikeErrorMessage = 'Failed to reserve bike';
+	const { error } = Reservation.validateReserveBike({ from, to });
+
+	if (error) {
+		return res
+			.status(STATUS_CODES.badRequest)
+			.json(handleErrorResponse({ message: reserveBikeErrorMessage, error }));
+	}
 
 	try {
 		const foundBike = await Bike.findById(bike_id);

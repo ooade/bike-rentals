@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -60,7 +61,7 @@ userSchema.statics.jwtStrategy = function jwtStrategy() {
 	});
 };
 
-userSchema.statics.getToken = function getToken({ user }) {
+userSchema.statics.getToken = ({ user }) => {
 	const token = jwt.sign(
 		{ id: user._id, email: user.email },
 		config.passport.secret,
@@ -69,6 +70,31 @@ userSchema.statics.getToken = function getToken({ user }) {
 		}
 	);
 	return token;
+};
+
+userSchema.statics.validateAuth = (user) => {
+	const schema = Joi.object({
+		email: Joi.string().email().required(),
+		password: Joi.string().required(),
+	});
+	return schema.validate(user);
+};
+
+userSchema.statics.validateAddUser = (user) => {
+	const schema = Joi.object({
+		email: Joi.string().email().required(),
+		password: Joi.string().required(),
+		role: Joi.string().valid('user', 'manager').required(),
+	});
+	return schema.validate(user);
+};
+
+userSchema.statics.validateUpdateUser = (user) => {
+	const schema = Joi.object({
+		email: Joi.string().email().required(),
+		role: Joi.string().valid('user', 'manager').required(),
+	});
+	return schema.validate(user);
 };
 
 module.exports = mongoose.model('user', userSchema);

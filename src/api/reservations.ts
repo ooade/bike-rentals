@@ -11,7 +11,7 @@ export const reserveBike = ({
 }: Partial<Reservation> & { bikeId: string }): Promise<
 	APISuccessResponse<Reservation>
 > => {
-	return api.post(`bikes/${bikeId}/reserve`, payload);
+	return api.post(`reservations/bikes/${bikeId}`, payload);
 };
 
 export const fetchReservations = (): Promise<
