@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const cors = require('cors');
+const path = require('path');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -36,8 +37,9 @@ passport.deserializeUser(User.deserializeUser());
 
 routes(app);
 
-app.get('**', (req, res) => {
-	return res.status(404).send('Not found');
+app.use(express.static(path.resolve(__dirname, '../build')));
+app.get('/*', (req, res) => {
+	res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 app.listen(PORT, (err) => {
