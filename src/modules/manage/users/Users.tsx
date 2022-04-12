@@ -49,7 +49,7 @@ export const ManageUsers = () => {
 		() => fetchUsers(),
 		{
 			select: ({ data }) => data,
-			onError: renderApiErrorToast,
+			onError: renderApiErrorToast('Could not fetch users'),
 		}
 	);
 

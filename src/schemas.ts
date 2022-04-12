@@ -27,3 +27,8 @@ export const addBikeSchema = Yup.object().shape({
 		secure_url: Yup.string().required('The secure url is required'),
 	}),
 });
+
+export const reserveBikeSchema = Yup.object().shape({
+	from: Yup.string().required('Reservations date required'),
+	to: Yup.string().required('Reservations end required'),
+});

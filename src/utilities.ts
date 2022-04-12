@@ -4,7 +4,26 @@ export const formatDate = (date: string) => {
 	);
 };
 
-export const formatCloudinaryImageUrl = (url: string, format: string) => {
+export const getCurrentDateInDateInputFormat = () => {
+	const currentDate = new Date().toLocaleDateString();
+	const [day, month, year] = currentDate.split('/');
+	return `${year}-${month}-${day}`;
+};
+
+export const sanitizeObject = (object: Record<string, unknown>) => {
+	return Object.keys(object).reduce((newObject, objectKey) => {
+		const value = object[objectKey];
+		if (value) {
+			newObject[objectKey] = value;
+		}
+		return newObject;
+	}, {} as Record<string, unknown>);
+};
+
+export const formatCloudinaryImageUrl = (
+	url: string,
+	format = 'c_scale,w_400'
+) => {
 	const searchKey = '/upload/';
 	const searchKeyLength = searchKey.length;
 	const searchKeyIndex = url.indexOf(searchKey);

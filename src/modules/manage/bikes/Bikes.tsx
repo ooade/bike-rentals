@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { Box, Button, useMediaQuery } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 
 import Bike from './Bike';
 import AddBikeModal from './AddBikeModal';
@@ -11,10 +11,6 @@ import { fetchBikes, queryKeys } from '../../../api/bikes';
 export const ManageBikes = () => {
 	const { renderApiErrorToast } = useErrorHandling();
 	const [isAddBikeModalOpen, setIsAddBikeModalOpen] = useState(false);
-	const [isMediumScreen, isLargeScreen] = useMediaQuery([
-		'(min-width: 50em)',
-		'(min-width: 80em)',
-	]);
 
 	const { data: bikes = [], isLoading } = useQuery(
 		queryKeys.fetchBikes,
@@ -32,18 +28,14 @@ export const ManageBikes = () => {
 			{isAddBikeModalOpen && (
 				<AddBikeModal onClose={() => setIsAddBikeModalOpen(false)} />
 			)}
-			<Button ml="6" onClick={() => setIsAddBikeModalOpen(true)}>
+			<Button ml="4" onClick={() => setIsAddBikeModalOpen(true)}>
 				Add new bike
 			</Button>
-			<Box
-				mx="6"
-				mt="4"
-				style={{ columnCount: isLargeScreen ? 3 : isMediumScreen ? 2 : 1 }}
-			>
+			<Flex flexWrap="wrap">
 				{bikes.map((bike) => (
 					<Bike key={bike.id} bike={bike} />
 				))}
-			</Box>
+			</Flex>
 		</Box>
 	);
 };

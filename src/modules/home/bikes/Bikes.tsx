@@ -1,21 +1,23 @@
 import { useQuery } from 'react-query';
-import { Box, useMediaQuery } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
+import { useSearchParams } from 'react-router-dom';
 
 import Bike from './Bike';
 import { useErrorHandling } from '../../../hooks';
-import { ContentLoader } from '../../../components';
+import { ContentLoader, NoData } from '../../../components';
 import { fetchBikes, queryKeys } from '../../../api/bikes';
 
 export const Bikes = () => {
 	const { renderApiErrorToast } = useErrorHandling();
-	const [isMediumScreen, isLargeScreen] = useMediaQuery([
-		'(min-width: 50em)',
-		'(min-width: 80em)',
-	]);
+	const [searchParams] = useSearchParams();
 
-	const { data: bikes = [], isLoading } = useQuery(
-		queryKeys.fetchBikes,
-		() => fetchBikes(),
+	const {
+		data: bikes = [],
+		isLoading,
+		isSuccess,
+	} = useQuery(
+		[queryKeys.fetchBikes, searchParams.toString()],
+		() => fetchBikes(searchParams.toString()),
 		{
 			select: ({ data }) => data,
 			onError: renderApiErrorToast('Could not fetch bikes'),
@@ -24,17 +26,22 @@ export const Bikes = () => {
 
 	if (isLoading) return <ContentLoader />;
 
+	if (isSuccess && bikes.length === 0) {
+		return (
+			<NoData
+				title="Sorry, we couldn't fetch bikes"
+				content="Try applying a different filter"
+			/>
+		);
+	}
+
 	return (
-		<Box my="10">
-			<Box
-				mx="6"
-				mt="4"
-				style={{ columnCount: isLargeScreen ? 3 : isMediumScreen ? 2 : 1 }}
-			>
+		<Box py="3" height="calc(100vh - 150px)" overflowY="auto">
+			<Flex flexWrap="wrap">
 				{bikes.map((bike) => (
 					<Bike key={bike.id} bike={bike} />
 				))}
-			</Box>
+			</Flex>
 		</Box>
 	);
 };

@@ -19,12 +19,14 @@ interface RemoveBikeModalProps {
 	bikeId: string;
 	bikeModel: string;
 	onClose: () => void;
+	numberOfReservations: number;
 }
 
 const RemoveBikeModal = ({
 	bikeId,
-	bikeModel,
 	onClose,
+	bikeModel,
+	numberOfReservations,
 }: RemoveBikeModalProps) => {
 	const queryClient = useQueryClient();
 	const { renderApiErrorToast } = useErrorHandling();
@@ -33,6 +35,7 @@ const RemoveBikeModal = ({
 	const removeBikeMutation = useMutation(() => removeBike({ id: bikeId }), {
 		onError: renderApiErrorToast('Could not delete bike'),
 		onSuccess: (response) => {
+			onClose();
 			queryClient.invalidateQueries(queryKeys.fetchBikes);
 			renderApiSuccessToast('Bike deleted successfully')(response);
 		},
@@ -42,12 +45,17 @@ const RemoveBikeModal = ({
 		<Modal isOpen={true} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader fontSize="md">Remove bike</ModalHeader>
+				<ModalHeader fontSize="md">Remove bike?</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody textAlign="center">
 					<AlertTriangleIcon mt="4" color="red.400" h={8} w={8} />
 					<Text my="6">
-						Are you sure you want to remove the {bikeModel} bike?
+						Are you sure you want to remove the {bikeModel} bike
+						<b>
+							{!!numberOfReservations &&
+								` with its ${numberOfReservations} reservations`}
+						</b>
+						?
 					</Text>
 				</ModalBody>
 				<ModalFooter display="flex" justifyContent="space-between">

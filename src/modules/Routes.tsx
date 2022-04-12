@@ -1,10 +1,11 @@
 import { Routes as ReactRoutes, Route } from 'react-router-dom';
 
-import Home from './home';
-import { Login, CreateAccount } from './auth';
 import { ProtectedRoute } from './ProtectedRoute';
+import { Login, CreateAccount } from './auth';
 import { ErrorPage } from '../components';
+import Reservations from './reservations';
 import { Manage } from './manage';
+import Home from './home';
 
 const Routes = () => {
 	return (
@@ -14,6 +15,14 @@ const Routes = () => {
 				element={
 					<ProtectedRoute>
 						<Home />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="reservations"
+				element={
+					<ProtectedRoute>
+						<Reservations />
 					</ProtectedRoute>
 				}
 			/>

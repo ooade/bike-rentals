@@ -1,5 +1,9 @@
 import api from '.';
-import { APISuccessResponse, Reservation } from '../interfaces';
+import {
+	Reservation,
+	ReservationUser,
+	APISuccessResponse,
+} from '../interfaces';
 
 export const reserveBike = ({
 	bikeId,
@@ -16,6 +20,33 @@ export const fetchReservations = (): Promise<
 	return api.get('reservations');
 };
 
+export const fetchUserReservations = (
+	id: string
+): Promise<APISuccessResponse<Reservation[]>> => {
+	return api.get(`reservations/users/${id}`);
+};
+
+export const fetchReservationUsers = (): Promise<
+	APISuccessResponse<ReservationUser[]>
+> => {
+	return api.get('reservations/users');
+};
+
+export const fetchReservation = (
+	id: string
+): Promise<APISuccessResponse<Reservation>> => {
+	return api.get(`reservations/${id}`);
+};
+
+export const cancelReservation = (
+	reservationId: string
+): Promise<APISuccessResponse> => {
+	return api.delete(`reservations/${reservationId}`);
+};
+
 export const queryKeys = {
-	fetchReservations: 'reservatiosn',
+	fetchReservation: 'reservation',
+	fetchReservations: 'reservations',
+	fetchReservationUsers: 'reservationUsers',
+	fetchUserReservations: 'userReservations',
 };

@@ -1,6 +1,7 @@
 type Role = 'user' | 'manager';
 
 interface CommonApiData {
+	id: string;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -19,7 +20,6 @@ export interface APIErrorResponse {
 }
 
 export interface User extends CommonApiData {
-	id: string;
 	role: Role;
 	email: string;
 	token?: string;
@@ -32,20 +32,32 @@ export interface Cloudinary {
 	secure_url: string;
 }
 
-export interface Bike extends CommonApiData {
+export interface Rating {
 	id: string;
+	rate: number;
+	rated_by: string;
+}
+
+export interface Bike extends CommonApiData {
 	model: string;
 	color: string;
 	location: string;
 	image: Cloudinary;
+	ratings: Rating[];
 	reservations?: [];
 	averageRate: number | null;
 }
 
 export interface Reservation extends CommonApiData {
-	id: string;
 	to: string;
 	bike: Bike;
 	from: string;
 	created_by: User;
+}
+
+export interface ReservationUser {
+	id: string;
+	to: string;
+	from: string;
+	email: string;
 }

@@ -47,10 +47,11 @@ const Bike = ({ bike }: BikeProps) => {
 					bikeId={bike.id}
 					bikeModel={bike.model}
 					onClose={onModalClose}
+					numberOfReservations={bike.reservations?.length || 0}
 				/>
 			)}
 			<Box
-				mb="3"
+				m="3"
 				key={bike.id}
 				borderRadius="10px"
 				position="relative"
@@ -92,8 +93,8 @@ const Bike = ({ bike }: BikeProps) => {
 				</Menu>
 				<div>
 					<Image
-						minWidth="400px"
-						minHeight="400px"
+						width="400px"
+						height="400px"
 						objectFit="cover"
 						alt={`${bike.model} bike`}
 						src={formattedBikeImageUrl}

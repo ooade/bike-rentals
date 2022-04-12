@@ -7,8 +7,10 @@ export const addBike = (
 	return api.post('bikes', payload);
 };
 
-export const fetchBikes = (): Promise<APISuccessResponse<Bike[]>> => {
-	return api.get('bikes');
+export const fetchBikes = (
+	serializedParams?: string
+): Promise<APISuccessResponse<Bike[]>> => {
+	return api.get(`bikes?${serializedParams || ''}`);
 };
 
 export const updateBike = ({

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 
 interface RatingProps {
 	value: number;
-	onChange: (rate: number) => void;
+	onChange?: (rate: number) => void;
 }
 export const Rating = ({ value, onChange }: RatingProps) => {
 	const initialRateRef = useRef(Math.ceil(value));
@@ -14,7 +14,7 @@ export const Rating = ({ value, onChange }: RatingProps) => {
 	const stars = [...filledStars, ...unfilledStars];
 
 	const handleClick = (rate: number) => {
-		onChange(rate);
+		onChange?.(rate);
 	};
 
 	return (
@@ -28,8 +28,8 @@ export const Rating = ({ value, onChange }: RatingProps) => {
 						handleClick(index + 1);
 						initialRateRef.current = index + 1;
 					}}
-					onMouseEnter={() => setRate(index + 1)}
-					onMouseLeave={() => setRate(initialRateRef.current)}
+					onMouseEnter={() => onChange && setRate(index + 1)}
+					onMouseLeave={() => onChange && setRate(initialRateRef.current)}
 				>
 					{star ? <span>&#9733;</span> : <span>&#9734;</span>}
 				</Box>

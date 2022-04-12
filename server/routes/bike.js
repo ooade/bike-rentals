@@ -24,7 +24,9 @@ const addBike = async (req, res) => {
 };
 
 const getBikes = async (req, res) => {
-	const { color, model, location, average_rate } = req.query;
+	const { color, model, location, average_rate, available_from, available_to } =
+		req.query;
+	const isFilterByAvailableDates = !!(available_from && available_to);
 
 	try {
 		const bikes = await Bike.aggregate([
@@ -51,9 +53,29 @@ const getBikes = async (req, res) => {
 					as: 'reservations',
 				},
 			},
+			{
+				$match: {
+					...(isFilterByAvailableDates && {
+						'reservations.from': {
+							$not: {
+								$gte: new Date(available_from),
+								$lte: new Date(available_to),
+							},
+						},
+						'reservations.to': {
+							$not: {
+								$lte: new Date(available_to),
+								$gte: new Date(available_from),
+							},
+						},
+					}),
+				},
+			},
 		]);
 
-		const formattedBikes = bikes.map((bike) => Bike.hydrate(bike));
+		const formattedBikes = bikes.map((bike) => {
+			return Bike.hydrate(bike);
+		});
 
 		return res.status(STATUS_CODES.ok).json(
 			handleSuccessResponse({

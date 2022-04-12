@@ -1,6 +1,13 @@
 const multer = require('multer');
 const { uploadMedia, deleteMedia } = require('./upload');
-const { reserveBike, listReservations } = require('./reservation');
+const {
+	reserveBike,
+	getReservation,
+	listReservations,
+	deleteReservation,
+	listUserReservations,
+	listReservationUsers,
+} = require('./reservation');
 const {
 	addBike,
 	rateBike,
@@ -62,6 +69,23 @@ module.exports = (app) => {
 	 * @BikeReservationRoutes
 	 * Routes related to bike reservations
 	 */
+	app.get(
+		'/reservations/users',
+		isAuthenticated,
+		canModerateApp,
+		listReservationUsers
+	);
+	app.get('/reservations', isAuthenticated, listReservations);
 	app.post('/bikes/:bike_id/reserve', isAuthenticated, reserveBike);
-	app.get('/reservations', isAuthenticated, canModerateApp, listReservations);
+	app.get(
+		'/reservations/users/:user_id',
+		isAuthenticated,
+		canModerateApp,
+		listUserReservations
+	);
+	app.delete(
+		'/reservations/:reservation_id',
+		isAuthenticated,
+		deleteReservation
+	);
 };

@@ -19,48 +19,87 @@ export const Layout = ({ children }: LayoutProps) => {
 	if (!user) return null;
 
 	return (
-		<div>
-			<Box
-				p="3"
-				as="nav"
-				height="70px"
-				display="flex"
-				alignItems="center"
-				borderBottom="1px solid"
-				borderBottomColor="gray.200"
-				justifyContent="space-between"
-			>
-				<Heading
-					as="h3"
-					role="img"
-					size="md"
-					cursor="pointer"
-					color="blue.400"
-					onClick={() => navigate('/')}
+		<Box display="flex">
+			<Box as="aside" width="250px" boxShadow="xl" height="100vh">
+				<Box
+					p="4"
+					height="70px"
+					borderBottom="1px solid"
+					borderBottomColor="gray.200"
 				>
-					RentABike
-				</Heading>
-				<Box as="ol" listStyleType="none" display="flex">
-					{user.role === 'manager' && (
-						<Box as="li" ml="2">
-							<Link to="/manage/users">Manage users</Link>
-						</Box>
-					)}
-					{user.role === 'manager' && (
-						<Box as="li" ml="2">
-							<Link to="/manage/bikes">Manage bikes</Link>
-						</Box>
-					)}
-					<Box as="li" ml="2">
-						<Text as="a" onClick={handleLogout}>
-							Logout ({user.email})
-						</Text>
+					<Heading
+						as="h3"
+						role="img"
+						size="md"
+						cursor="pointer"
+						color="blue.400"
+						textAlign="center"
+						onClick={() => navigate('/')}
+					>
+						RentABike
+					</Heading>
+				</Box>
+
+				<Box as="ol" listStyleType="none" mt="6">
+					<Text
+						px="5"
+						py="3"
+						fontWeight="600"
+						fontSize="sm"
+						textTransform="uppercase"
+					>
+						Your space
+					</Text>
+					<Box as="li" px="5" py="2">
+						<Link to="/">Home</Link>
 					</Box>
+					<Box as="li" px="5" py="2">
+						<Link to="/reservations">Bike reservations</Link>
+					</Box>
+
+					{user.role === 'manager' && (
+						<>
+							<Text
+								px="5"
+								py="3"
+								fontWeight="600"
+								fontSize="sm"
+								textTransform="uppercase"
+							>
+								Management
+							</Text>
+							<Box as="li" px="5" py="2">
+								<Link to="/manage/users">Manage users</Link>
+							</Box>
+							<Box as="li" px="5" py="2">
+								<Link to="/manage/bikes">Manage bikes</Link>
+							</Box>
+							<Box as="li" px="5" py="2">
+								<Link to="/manage/reservations">Manage user reservations</Link>
+							</Box>
+						</>
+					)}
 				</Box>
 			</Box>
-			<Box as="main" px="3">
-				{children}
+			<Box height="100vh" flex="1" width="calc(100vh - 250px)">
+				<Box
+					p="3"
+					as="nav"
+					height="70px"
+					display="flex"
+					alignItems="center"
+					borderBottom="1px solid"
+					justifyContent="flex-end"
+					borderBottomColor="gray.200"
+				>
+					<Text as="a" onClick={handleLogout}>
+						Logout ({user.email})
+					</Text>
+				</Box>
+				<Box as="main" px="3" overflowY="auto" height="calc(100% - 70px)">
+					{children}
+				</Box>
 			</Box>
-		</div>
+		</Box>
 	);
 };
