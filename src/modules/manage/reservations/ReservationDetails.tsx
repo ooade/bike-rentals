@@ -34,8 +34,15 @@ const ReservationDetails = () => {
 					Select a user to view their reservations
 				</Text>
 			)}
-			{userReservations.map((reservation) => (
-				<Box p="3" key={reservation.id} width="300px" mb="2">
+			{userReservations.map((reservation, index) => (
+				<Box
+					p="3"
+					key={reservation.id}
+					width="300px"
+					mb="2"
+					borderTop={index === 0 ? '' : '1px solid'}
+					borderTopColor="gray.100"
+				>
 					<Image
 						width="300px"
 						height="300px"

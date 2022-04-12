@@ -60,7 +60,7 @@ export const HomeFilters = () => {
 				placement="bottom-start"
 				isOpen={isFilterOpen}
 				onOpen={() => setIsFilterOpen(true)}
-				onClose={() => setIsFilterOpen(true)}
+				onClose={() => setIsFilterOpen(false)}
 			>
 				<PopoverTrigger>
 					<Button data-testid="filter-bikes" leftIcon={<ChevronDown />}>

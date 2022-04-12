@@ -1,11 +1,15 @@
-import { Box, Button, Image } from '@chakra-ui/react';
+import { Box, Button, Image, Spinner, Tooltip } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { Rating } from '../../../components';
 import { PinIcon } from '../../../components/icons';
 import { queryKeys, rateBike } from '../../../api/bikes';
 import { formatCloudinaryImageUrl } from '../../../utilities';
-import { useErrorHandling, useSuccessToast } from '../../../hooks';
+import {
+	useCurrentUser,
+	useErrorHandling,
+	useSuccessToast,
+} from '../../../hooks';
 import { APIErrorResponse, Bike as BikeInterface } from '../../../interfaces';
 import { useState } from 'react';
 import ReserveBikeModal from './ReserveBikeModal';
@@ -18,6 +22,7 @@ const Bike = ({ bike, ...props }: BikeProps) => {
 	const [isReserveBikeModalOpen, setIsReserveBikeOpen] = useState(false);
 	const { renderApiSuccessToast } = useSuccessToast();
 	const { renderApiErrorToast } = useErrorHandling();
+	const { data: currentUser } = useCurrentUser();
 	const queryClient = useQueryClient();
 
 	const formattedBikeImageUrl = formatCloudinaryImageUrl(
@@ -36,6 +41,10 @@ const Bike = ({ bike, ...props }: BikeProps) => {
 				renderApiErrorToast('Could not rate bike')(error);
 			},
 		}
+	);
+
+	const userCurrentRating = bike.ratings.find(
+		(rating) => rating.rated_by === currentUser?.id
 	);
 
 	return (
@@ -79,11 +88,19 @@ const Bike = ({ bike, ...props }: BikeProps) => {
 					</Box>
 				</Box>
 				<Box display="flex" justifyContent="space-between">
-					<Box display="flex">
-						<Rating
-							value={bike.averageRate || 0}
-							onChange={(rate) => rateBikeMutation.mutate(rate)}
-						/>
+					<Box display="flex" alignItems="center">
+						<Tooltip
+							hasArrow
+							bg="black"
+							isDisabled={!userCurrentRating}
+							label={`You previously rated ${userCurrentRating?.rate}`}
+						>
+							<Rating
+								value={bike.averageRate || 0}
+								onChange={(rate) => rateBikeMutation.mutate(rate)}
+							/>
+						</Tooltip>
+						{rateBikeMutation.isLoading && <Spinner size="sm" />}
 					</Box>
 					<Button
 						size="sm"
