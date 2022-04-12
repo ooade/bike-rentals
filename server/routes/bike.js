@@ -21,14 +21,14 @@ const addBike = async (req, res) => {
 
 		return res.status(STATUS_CODES.created).json(
 			handleSuccessResponse({
-				message: addBikeErrorMessage,
+				message: 'Bike added successfully',
 				data: bike,
 			})
 		);
 	} catch (error) {
 		return res
 			.status(STATUS_CODES.serverError)
-			.json(handleErrorResponse({ message: 'Failed to add bike', error }));
+			.json(handleErrorResponse({ message: addBikeErrorMessage, error }));
 	}
 };
 
